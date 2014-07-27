@@ -125,9 +125,12 @@ Mikrotik Configuration
 /ip firewall mangle
 
 # All users need a marker here
-add chain=prerouting action=mark-connection new-connection-mark=GW2 src-address=192.168.1.3 
+add chain=prerouting action=mark-connection new-connection-mark=GW2 src-address=192.168.1.3 place-before="Catch All"
+add 
 
 add action=mark-routing chain=prerouting comment="RM for GW1" connection-mark=GW1 in-interface=bridge-local new-routing-mark=GW1
 add action=mark-routing chain=prerouting comment="RM for GW2" connection-mark=GW2 in-interface=bridge-local new-routing-mark=GW2
 
-/queue simple add max-limit=512k/1M target=192.168.1.3 name="Andrew"
+/queue simple add max-limit=512k/1M target=192.168.1.0/24 name="Everyone Else"
+/queue simple add max-limit=512k/1M target=192.168.1.3 name="Andrew" place-before="Everyone Else"
+

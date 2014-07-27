@@ -30,10 +30,7 @@ if ($API->connect($router_address, $router_user, $router_pass)) {
 
         foreach ($QUEUE as $row) {
 
-            $usage = explode("/", $row['bytes']);
-            if ($usage['0'] == 0) {
-                continue;
-            }
+            if ($row['rate'] == '0bps/0bps') { continue; }
             
             foreach($MANGLE as $row1) {
                 if (isset($row['target']) && isset($row1['src-address']) && isset($row1['new-connection-mark'])) {
